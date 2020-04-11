@@ -48,22 +48,9 @@ public:
     {
         cout<<"Derived Class Constructor is Invoked"<<endl;
     }
-    virtual ~Derived()
+    ~Derived()
     {
         cout<<"Derived Class Destructor is Invoked"<<endl;
-    }
-};
-
-class Derived1:public Base,Derived
-{
-public:
-    Derived1()
-    {
-        cout<<"Derived1 Class Constructor is Invoked"<<endl;
-    }
-    ~Derived1()
-    {
-        cout<<"Derived1 Class Destructor is Invoked"<<endl;
     }
 };
 
@@ -77,6 +64,10 @@ int main(int argc,char* argv[])
         }
     }
     else
-        Derived1 D;
+    {
+        Derived *D=new Derived();
+        Base *B=D;
+        delete B;
+    }
     return 0;
 }
