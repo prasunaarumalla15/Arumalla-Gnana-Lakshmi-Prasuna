@@ -138,12 +138,10 @@ void deletefromfile(vector<student> &std)
     {
         s=*it;
         if(s.outkey()==ckey)
+        {
             std.erase(it);
-    }
-    if(outfile.eof())   //checking if the file is empty
-    {
-        cout<<"The file Empty and is being removed"<<endl;
-        remove("notes.ini");
+            cout<<"Deleted"<<endl;
+        }
     }
     for(it=std.begin();it!=std.end();it++)
         outfile.write((char*)&(*it),sizeof(s));
