@@ -1,6 +1,6 @@
 /*File Name     :parse.cc
   Author Name   :A.G.L.Prasuna
-  Created Date  :06-04-2020
+  Created Date  :13-04-2020
   Description   :To display the output in the given format
   Requirements  :#include<iostream>,#include<string.h>,#include<math.h>*/
 
@@ -44,9 +44,16 @@ void find_datatype(char* sArg)
 int main(int argc,char* argv[]) //int main with command line arguments as parameters
 {
     int iCount;
-    if(strcmp(argv[1],"-h")==0)     //created a help command
+    if(argc==2)
     {
-        cout<<"Can pass any no.of arguments in command line of type string,char,int and float types"<<endl;
+        if(strcmp(argv[1],"-h")==0)     //created a help command
+        {
+            cout<<argv[0]<<" "<<"datatype 1 datatype 2 .... datatypeN"<<endl;
+        }
+    }
+    else if(argc==1)
+    {
+        cout<<"use "<<argv[0]<<" -h command"<<endl;
     }
     else
     {
@@ -60,7 +67,8 @@ int main(int argc,char* argv[]) //int main with command line arguments as parame
         {
             find_datatype(argv[iCount]);    //passing each argument to function
         }
-        return 0;
     }
+        return 0;
 }
+
 
