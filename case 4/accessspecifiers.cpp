@@ -120,7 +120,7 @@ int main(int argc,char* argv[])
     {
         if(strcmp(argv[1],"-h")==0)     //created a help command
         {
-            cout<<"we need to enter no.of employees and select salaried or daily worker(s/d) and then enter required details "<<endl;
+            cout<<"Enter the given inputs"<<endl;
         }
     }
     else
