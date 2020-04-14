@@ -57,6 +57,9 @@ void type_modifiers()
     signed int iNum1;
     cout<<"Enter signed number:";
     cin>>iNum1;
+    short int iNum2;
+    iNum2=iNum;
+    cout<<"short int:"<<iNum2<<'\t'<<"size of short int:"<<sizeof(iNum2)<<endl;
     test_function_storage();
     cout<<endl;
     cout<<"Local variables"<<endl;
@@ -71,7 +74,7 @@ int main(int argc,char* argv[])
     {
         if(strcmp(argv[1],"-h")==0)     //created a help command
         {
-            cout<<"Just enter different values as mentioned and observe the output"<<endl;
+            cout<<"Input given inputs"<<endl;
         }
     }
     else
