@@ -35,9 +35,9 @@ public:
     void get()
     {
         cout<<"Using Member Function"<<endl;
-        cout<<"Enter Number 1:";
+        cout<<"Enter Number 1 any int:";
         cin>>iNum1;
-        cout<<"Enter Number 2:";
+        cout<<"Enter Number 2 any float:";
         cin>>iNum2;
     }
 
@@ -66,9 +66,9 @@ public:
     void getinput1(Test T)
     {
         cout<<"Using Friend Class"<<endl;
-        cout<<"Enter Number 1:";
+        cout<<"Enter Number 1 any int:";
         cin>>T.iNum1;  //input to Test object variable
-        cout<<"Enter Number 2:";
+        cout<<"Enter Number 2 any float:";
         cin>>T.iNum2;
         cout<<"Number 1:"<<T.iNum1<<endl<<"Number 2:"<<T.iNum2<<endl;
         cout<<endl;
@@ -83,9 +83,9 @@ public:
 void getinput(Test T)
 {
     cout<<"Using Friend Function"<<endl;
-    cout<<"Enter Number 1:";
+    cout<<"Enter Number 1 any int:";
     cin>>T.iNum1;
-    cout<<"Enter Number 2:";
+    cout<<"Enter Number 2 any float:";
     cin>>T.iNum2;
     cout<<"Number 1:"<<T.iNum1<<endl<<"Number 2:"<<T.iNum2<<endl;
     cout<<endl;
@@ -97,7 +97,7 @@ int main(int argc,char* argv[])
     {
         if(strcmp(argv[1],"-h")==0)     //created a help command
         {
-            cout<<"Just pass the values of two variables int and float"<<endl;
+            cout<<"Enter the given inputs"<<endl;
         }
     }
     else
