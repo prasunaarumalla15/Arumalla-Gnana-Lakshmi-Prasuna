@@ -60,7 +60,7 @@ int main(int argc,char* argv[])
     {
         if(strcmp(argv[1],"-h")==0)     //created a help command
         {
-            cout<<"Used to know the order of constructors and destructors, no need to give any input"<<endl;
+            cout<<"No input is required"<<endl;
         }
     }
     else
