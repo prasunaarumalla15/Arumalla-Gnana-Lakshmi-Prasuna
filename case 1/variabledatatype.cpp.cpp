@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include<string.h>
+#include<sstream>
 #include<math.h>
 
 using namespace std;
@@ -17,10 +18,11 @@ using namespace std;
 
 void find_datatype(char* sArg)
 {
-    int iNum;
-    float fTemp;
+    int iNum=0;
+    float fTemp=0;
     float fVal=1e-12;  //precision for integer checking
-    if(sscanf(sArg,"%f",&fTemp)==1)   //converting the string to double and storing in temp
+    stringstream num(sArg); //to convert strinf to int,floats or doubles
+    if(num>>fTemp)  //extracting num to fTemp
     {
         iNum=(int)fTemp;    //typecasting to int
         if(fabs(fTemp-iNum)/fTemp>fVal) //checking if any decimal value
@@ -30,14 +32,10 @@ void find_datatype(char* sArg)
     }
     else
     {
-        auto aNum=atoi(sArg);   //converting string to integer
-        if(aNum==0) //if not integer
-        {
-            if(strlen(sArg)==1) //checking whether it is character
-                cout<<"Char"<<'\t'<<sArg<<'\t'<<strlen(sArg)<<endl;
-            else
-                cout<<"String"<<'\t'<<sArg<<'\t'<<strlen(sArg)<<endl;
-        }
+        if(strlen(sArg)==1) //checking whether it is character
+            cout<<"Char"<<'\t'<<sArg<<'\t'<<strlen(sArg)<<endl;
+        else
+            cout<<"String"<<'\t'<<sArg<<'\t'<<strlen(sArg)<<endl;
     }
 }
 
