@@ -63,7 +63,7 @@ int main(int argc,char* argv[])
     {
         if(strcmp(argv[1],"-h")==0)     //created a help command
         {
-            cout<<"used to display private variable int* and char[20], enter one int and char variables"<<endl;
+            cout<<"Enter given Inputs"<<endl;
         }
     }
     else
