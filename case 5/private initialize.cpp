@@ -1,11 +1,12 @@
 /*File Name     :case5.cc
   Author Name   :A.G.L.Prasuna
-  Created Date  :07-04-2020
+  Created Date  :15-04-2020
   Description   :To know different ways to initialize private members of a class
-  Requirements  :#include<iostream>,#include<string.h>*/
+  Requirements  :#include<iostream>,#include<string.h>,#include<vector>*/
 
 #include<iostream>
 #include<string.h>
+#include<vector>
 
 using namespace std;
 
@@ -14,18 +15,8 @@ private:
     int iNum1;
     float iNum2;
 public:
-    Test()
-    {
-        cout<<"Default Constructor is Invoked"<<endl;
-        iNum1=100;
-        iNum2=200;
-    }
-    Test(int iX,float iY)
-    {
-        cout<<"Parameterized Constructor Invoked"<<endl;
-        iNum1=iX;
-        iNum2=iY;
-    }
+    Test():iNum1{5},iNum2{52.32}{}
+    Test(int iX,int iY):iNum1{iX},iNum2{iY}{}
 
 /*Function Name :get()
   Parameters    :no parameter
@@ -52,27 +43,7 @@ public:
         cout<<"Number 2:"<<iNum2<<endl;
         cout<<endl;
     }
-    friend class Test1;
     friend void getinput(Test T);
-};
-
-class Test1
-{
-public:
-/*Function Name :getinput1
-  Parameters    :Test class object
-  Return Type   :no return type
-  Usage         :to take the input of private members*/
-    void getinput1(Test T)
-    {
-        cout<<"Using Friend Class"<<endl;
-        cout<<"Enter Number 1 any int:";
-        cin>>T.iNum1;  //input to Test object variable
-        cout<<"Enter Number 2 any float:";
-        cin>>T.iNum2;
-        cout<<"Number 1:"<<T.iNum1<<endl<<"Number 2:"<<T.iNum2<<endl;
-        cout<<endl;
-    }
 };
 
 /*Function Name :getinput
@@ -102,15 +73,16 @@ int main(int argc,char* argv[])
     }
     else
     {
-        Test ob;    //default constructor
+        Test ob;
+        Test ob1(20,10.235f);    //parameterized constructor
+        cout<<"using Initialization List"<<endl;
         ob.display();
-        Test ob1(20,10.20f);    //parameterized constructor
         ob1.display();
-        getinput(ob);
-        ob.get();
-        ob.display();
-        Test1 T1;
-        T1.getinput1(ob);
+        Test ob2;
+        ob2.get();
+        ob2.display();
+        Test T;
+        getinput(T);
     }
     return 0;
 }
