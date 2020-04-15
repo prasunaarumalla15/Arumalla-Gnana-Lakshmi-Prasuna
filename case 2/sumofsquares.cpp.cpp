@@ -1,6 +1,6 @@
-/*File Name     :case2.cc
+/*File Name     :sos.cc
   Author Name   :A.G.L.Prasuna
-  Created Date  :13-04-2020
+  Created Date  :15-04-2020
   Description   :To find sum of squares
   Requirements  :#include<iostream>,#include<string.h>*/
 
@@ -16,7 +16,14 @@ using namespace std;
 
 int SumofSquares(int iNum)
 {
-    return (iNum*(iNum+1)*(2*iNum+1))/6;    //formula to calculate squares of n terms
+    int iStart=1;
+    int iSquare=0;
+    while(iStart<=iNum)
+    {
+        iSquare+=iStart*iStart; //calculating sum of squares
+        iStart++;
+    }
+    return iSquare;
 }
 
 int main(int argc,char* argv[])
@@ -33,8 +40,13 @@ int main(int argc,char* argv[])
     {
         cout<<"Input:";
         cin>>iCount;
-        iSum=SumofSquares(iCount);
-        cout<<"Output:"<<iSum;
+        if(iCount>0)
+        {
+            iSum=SumofSquares(iCount);
+            cout<<"Output:"<<iSum;
+        }
+        else
+            cout<<"Enter Positive Integer greater than zero"<<endl;
     }
     return 0;
 }
