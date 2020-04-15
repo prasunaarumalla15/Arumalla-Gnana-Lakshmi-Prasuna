@@ -1,7 +1,7 @@
 /*File Name     :case5(1).cc
   Author Name   :A.G.L.Prasuna
   Created Date  :07-04-2020
-  Description   :To know the order of constructors and destructors with and with virtual
+  Description   :To know the order of constructors and destructors with and without virtual
   Requirements  :#include<iostream>,#include<string.h>*/
 
 #include <iostream>
