@@ -2,11 +2,10 @@
   Author Name   :A.G.L.Prasuna
   Created Date  :15-04-2020
   Description   :To know different ways to initialize private members of a class
-  Requirements  :#include<iostream>,#include<string.h>,#include<vector>*/
+  Requirements  :#include<iostream>,#include<string.h>*/
 
 #include<iostream>
 #include<string.h>
-#include<vector>
 
 using namespace std;
 
@@ -74,7 +73,7 @@ int main(int argc,char* argv[])
     else
     {
         Test ob;
-        Test ob1(20,10.235f);    //parameterized constructor
+        Test ob1(20,10.235);    //parameterized constructor
         cout<<"using Initialization List"<<endl;
         ob.display();
         ob1.display();
