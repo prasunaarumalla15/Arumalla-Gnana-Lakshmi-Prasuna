@@ -1,11 +1,12 @@
-/*File Name     :file.cc
+/*File Name     :file_note.cc
   Author Name   :A.G.L.Prasuna
-  Created Date  :14-04-2020
+  Created Date  :16-04-2020
   Description   :To perform the list of operations specified
   Requirements  :#include<iostream>,#include<fstream>,#include<vector>,#include<stdio.h>,#include<string.h>*/
 
 #include<iostream>
-#include<vector>    //including the container
+//including the container
+#include<vector>
 #include<fstream>
 #include<stdio.h>
 #include<string.h>
@@ -13,8 +14,8 @@
 using namespace std;
 
 class student{
-    char c_Key;
-    char s_Value[100];
+    char c_Key[500];
+    char c_Value[100];
 public:
 
 /*Function Name :getkey
@@ -25,7 +26,8 @@ public:
     void getkey()
     {
         cout<<"Enter key:";
-        cin>>c_Key;
+        getchar();
+        cin.get(c_Key,500,'\n');
     }
 
 /*Function Name :getvalue
@@ -37,7 +39,7 @@ public:
     {
         cout<<"Enter value:";
         getchar();
-        cin.get(s_Value,100,'\n');
+        cin.get(c_Value,100,'\n');
     }
 
 /*Function Name :outkey
@@ -45,7 +47,7 @@ public:
   Return Type   :char return type
   Usage         :to return the key*/
 
-    char outkey()
+    char* outkey()
     {
         return c_Key;
     }
@@ -57,11 +59,11 @@ public:
 
     char* outvalue()
     {
-        return s_Value;
+        return c_Value;
     }
     void display()
     {
-        cout<<c_Key<<"\t"<<s_Value<<endl;
+        cout<<c_Key<<"\t"<<c_Value<<endl;
     }
 };
 
@@ -74,17 +76,20 @@ void removefile()
 {
     student s;
     int iCount;
-    ifstream in("notes.ini",ios::in);
+    ifstream in("note.ini",ios::in);
     while(1)
     {
-        in.read((char*)&s,sizeof(s));   //reading the contents in file
+        //reading the contents in file
+        in.read((char*)&s,sizeof(s));
         iCount++;
+        //checking for end of file
         if(in.eof())break;
     }
     if(iCount==0)
     {
         cout<<"file is removed"<<endl;
-        remove("notes.ini");        //to remove file
+        //to remove file
+        remove("note.ini");
     }
 }
 
@@ -93,26 +98,34 @@ void removefile()
   Return Type   :int return type
   Usage         :to update the duplicate values*/
 
-int searchupdate(vector<student> &std,char cOption)
+int searchupdate(vector<student> &std,char* cOption)
 {
     student s;
-    vector<student>:: iterator it;  //iterator creation to go word to word in file
-    ofstream outfile("notes.ini",ios::out);  //inorder to write updated value opened in write mode
-    for(it=std.begin();it!=std.end();it++)  //iterating to contents stored in vector
+    //iterator creation to go word to word in file
+    vector<student>:: iterator it;
+    //inorder to write updated value opened in write mode
+    ofstream outfile("note.ini",ios::trunc|ios::out);
+    for(it=std.begin();it!=std.end();it++)
     {
         s=*it;
-        if(s.outkey()==cOption)
+        if(strcmp(s.outkey(),cOption)==0)
         {
-            std.erase(it);  //the value is been deleted
+            //the value is been deleted
+            std.erase(it);
             cout<<"Enter value to update"<<endl;
             s.getvalue();
+            //the new value is pushed into file
             std.push_back(s);
-            for(it=std.begin();it!=std.end();it++)
-                outfile.write((char*)&(*it),sizeof(s));     //the file again written with updated values
-            outfile.close();
             return 1;
         }
     }
+    for(it=std.begin();it!=std.end();it++)
+    {
+        s=*it;
+        //the file again written with updated values
+        outfile<<s.outkey()<<"="<<s.outvalue()<<endl;
+    }
+    outfile.close();
 }
 
 /*Function Name :addtofile
@@ -127,16 +140,20 @@ void addtofile(vector<student> &std)
     char cOption='y';
     while(cOption=='y')
     {
-        ofstream outfile("notes.ini",ios::out);
+        ofstream outfile("note.ini",ios::trunc|ios::out);
         s.getkey();
-        if(searchupdate(std,s.outkey())==1) //checking for if the key is already present in the file or not
+        if(searchupdate(std,s.outkey())==1)
+            //checking for if the key is already present in the file or not
             cout<<"updated"<<endl;
         else
         {
             s.getvalue();
-            std.push_back(s);   //all new entries has been pushed backed
+            std.push_back(s);
             for(it=std.begin();it!=std.end();it++)
-            outfile.write((char*)&(*it),sizeof(s));
+            {
+                s=*it;
+                outfile<<s.outkey()<<"="<<s.outvalue()<<endl;
+            }
         }
         cout<<"Do you want to append student data(y/n)?";
         cin>>cOption;
@@ -151,16 +168,17 @@ void addtofile(vector<student> &std)
 
 void deletefromfile(vector<student> &std)
 {
-    char ckey;
+    char ckey[500];
     student s;
     vector<student>:: iterator it;
-    ofstream outfile("notes.ini",ios::out);
+    ofstream outfile("note.ini",ios::trunc|ios::out);
     cout<<"Enter the key to delete:";
-    cin>>ckey;
+    getchar();
+    cin.get(ckey,500,'\n');
     for(it=std.begin();it!=std.end();it++)
     {
         s=*it;
-        if(s.outkey()==ckey)
+        if(strcmp(s.outkey(),ckey)==0)
         {
             std.erase(it);
             cout<<"Deleted"<<endl;
@@ -168,7 +186,10 @@ void deletefromfile(vector<student> &std)
     }
     removefile();
     for(it=std.begin();it!=std.end();it++)
-        outfile.write((char*)&(*it),sizeof(s));
+    {
+            s=*it;
+            outfile<<s.outkey()<<"="<<s.outvalue()<<"\n";
+    }
     outfile.close();
 }
 
@@ -180,14 +201,13 @@ void deletefromfile(vector<student> &std)
 void showfromfile()
 {
     student s;
-    ifstream in("notes.ini",ios::in);
-    while(1)
+    ifstream in("note.ini",ios::in);
+    char cdata[500];
+    while(!in.eof())
     {
-        in.read((char*)&s,sizeof(s));   //reading the contents in file
-        if(in.eof())break;  //checking for end of the file
-            s.display();
+        in.getline(cdata,500);
+        cout<<cdata<<endl;
     }
-    in.close();
 }
 
 /*Function Name :searching
@@ -199,21 +219,22 @@ void searching(vector<student> &std)
 {
     student s;
     char cCheck;
-    char cSearch_key;
-    char cSearch_value[5];
+    char cSearch_key[500];
+    char cSearch_value[100];
     vector<student>:: iterator it;
-    ifstream in("notes.ini",ios::in);
+    ifstream in("note.ini",ios::in);
     cout<<"do u want search key or value(k/v):";
     cin>>cCheck;
     if(cCheck=='k')
     {
         cout<<"Enter key u want to search:";
-        cin>>cSearch_key;
+        getchar();
+        cin.get(cSearch_key,500,'\n');
         for(it=std.begin();it!=std.end();it++)
         {
             s=*it;
-            if(cSearch_key==s.outkey())
-                cout<<s.outkey()<<"\t"<<s.outvalue()<<endl;
+            if(strcmp(cSearch_key,s.outkey())==0)
+                cout<<s.outkey()<<"="<<s.outvalue()<<endl;
         }
     }
     else if(cCheck=='v')
@@ -225,7 +246,7 @@ void searching(vector<student> &std)
         {
             s=*it;
             if(strcmp(cSearch_value,s.outvalue())==0)
-                cout<<s.outkey()<<"\t"<<s.outvalue()<<endl;
+                cout<<s.outkey()<<"="<<s.outvalue()<<endl;
         }
     }
     else
@@ -236,16 +257,15 @@ int main(int argc,char* argv[])
 {
     if(argc==2)
     {
-        if(strcmp(argv[1],"-h")==0)     //created a help command
+        if(strcmp(argv[1],"-h")==0)
         {
-            cout<<"select add or delete or display option"<<endl;
+            cout<<"select required option"<<endl;
         }
     }
     else
     {
         vector<student> std;
         vector<student>:: iterator it;
-        student s;
         char cOpt;
         while(1)
         {
