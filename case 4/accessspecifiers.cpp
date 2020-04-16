@@ -1,4 +1,4 @@
-/*File Name     :access.cc
+/*File Name     :access_specifiers.cc
   Author Name   :A.G.L.Prasuna
   Created Date  :14-04-2020
   Description   :To know the purpose and difference between public,private and protected access specifiers
@@ -16,7 +16,8 @@ int main(int argc,char* argv[])
 {
     if(argc>=2)
     {
-        if(strcmp(argv[1],"-h")==0)     //created a help command
+        //created a help command
+        if(strcmp(argv[1],"-h")==0)
         {
             cout<<"Enter the given inputs"<<endl;
         }
@@ -28,7 +29,8 @@ int main(int argc,char* argv[])
         cin>>iNumber;
         vector<Worker*> std;
         vector<Worker*>::iterator it;
-        Worker *W;      //abstract object
+        //abstract object
+        Worker *W;
         char cChoice;
         int iCount;
         for(iCount=0;iCount<iNumber;iCount++)
@@ -37,15 +39,18 @@ int main(int argc,char* argv[])
             cin>>cChoice;
             if(cChoice=='s')
             {
-                W=new Salaried();   //creating memory
-                W->get();    //calling functions
+                //creating memory
+                W=new Salaried();
+                W->get();
+                //calling functions
                 W->calWages();
-                std.push_back(W);   //storing in vector container
+                //storing in vector container
+                std.push_back(W);
             }
             else if(cChoice=='d')
             {
                 W=new Daily();
-                W->get();    //calling functions
+                W->get();
                 W->calWages();
                 std.push_back(W);
             }
@@ -59,7 +64,8 @@ int main(int argc,char* argv[])
         for(it=std.begin();it!=std.end();++it)
         {
             W=*it;
-            W->display();   //displaying details
+            //displaying details
+            W->display();
         }
     }
     return 0;
