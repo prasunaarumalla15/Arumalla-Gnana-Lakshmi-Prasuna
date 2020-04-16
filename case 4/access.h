@@ -10,13 +10,17 @@ using namespace std;
 
 class Worker
 {
-private:        //no one can access it and input is given through member function of that class
+//no one can access it and input is given through member function of that class
+private:
     char cEmp_Name[20];
     float fEmp_Salary;
-protected:      //limited members can access it
+//limited members can access it
+protected:
     int iEmp_ID;
-public:         //everyone can access it
-    virtual void calWages()=0;      //pure virtual function,abstract class
+//everyone can access it
+public:
+    //pure virtual function,abstract class
+    virtual void calWages()=0;
     int iDays;
     float fWages;
 
@@ -31,7 +35,8 @@ public:         //everyone can access it
         cin>>iEmp_ID;
         cout<<"Enter Name of Employee:";
         getchar();
-        cin.get(cEmp_Name,100,'\n');    //can accept space also
+        //can accept space also
+        cin.get(cEmp_Name,100,'\n');
     }
 
 /*Function Name :setsal
@@ -60,7 +65,8 @@ public:         //everyone can access it
     }
 };
 
-class Salaried:public Worker    //class is inherited in public
+//class is inherited in public
+class Salaried:public Worker
 {
 private:
     float fWages;
