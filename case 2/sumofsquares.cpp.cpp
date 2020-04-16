@@ -1,4 +1,4 @@
-/*File Name     :sos.cc
+/*File Name     :sum_squares.cc
   Author Name   :A.G.L.Prasuna
   Created Date  :15-04-2020
   Description   :To find sum of squares
@@ -20,7 +20,8 @@ int SumofSquares(int iNum)
     int iSquare=0;
     while(iStart<=iNum)
     {
-        iSquare+=iStart*iStart; //calculating sum of squares
+        //calculating sum of squares
+        iSquare+=iStart*iStart;
         iStart++;
     }
     return iSquare;
@@ -31,7 +32,8 @@ int main(int argc,char* argv[])
     int iCount,iSum;
     if(argc==2)
     {
-        if(strcmp(argv[1],"-h")==0)     //created a help command
+         //created a help command
+        if(strcmp(argv[1],"-h")==0)
         {
             cout<<"Input:Integer"<<endl;
         }
@@ -46,7 +48,7 @@ int main(int argc,char* argv[])
             cout<<"Output:"<<iSum;
         }
         else
-            cout<<"Enter Positive Integer greater than zero"<<endl;
+            cout<<"Enter Positive Integer"<<endl;
     }
     return 0;
 }
