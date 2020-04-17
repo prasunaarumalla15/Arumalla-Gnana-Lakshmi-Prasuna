@@ -11,10 +11,14 @@
 using namespace std;
 
 class Student{
+//private can be accessed only through member functions that are in public in derived classes
 private:
     char cMail[50];
     char cName[50];
-    public:
+//protected can be accessed directly in public and private inheritance
+protected:
+    int iAge;
+public:
 /*Function Name :get
   Parameters    :no parameter
   Return Type   :no return type
@@ -35,30 +39,38 @@ private:
     void display()
     {
         cout<<"Name:"<<cName<<endl;
+        cout<<"Age:"<<iAge<<endl;
         cout<<"Mail:"<<cMail<<endl;
+        cout<<endl;
     }
 };
 
 class Teacher:protected Student
 {
    public:
+
        void get1()
        {
-           cout<<"I am a Teacher"<<endl;
-           get();
+            cout<<"I am a Teacher"<<endl;
+            get();
+            //getting details of protected member of base class
+            cout<<"Enter Age of Student:";
+            cin>>iAge;
            //calling base class functions
-           display();
+            display();
        }
 };
 
-class Stranger:private Student
+class Parent:private Student
 {
    public:
        void get2()
        {
-           cout<<"I am a Stranger"<<endl;
-           get();
-           display();
+            cout<<"I am a Parent"<<endl;
+            get();
+            cout<<"Enter Age of Student:";
+            cin>>iAge;
+            display();
        }
 };
 
@@ -75,7 +87,7 @@ int main(int argc,char* argv[])
         Teacher ob;
         cout<<"Protected Inheritance"<<endl;
         ob.get1();
-        Stranger ob1;
+        Parent ob1;
         cout<<"Private Inheritance"<<endl;
         ob1.get2();
     }
