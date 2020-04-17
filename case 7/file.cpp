@@ -1,3 +1,9 @@
+/*File Name     :file_note.cc
+  Author Name   :A.G.L.Prasuna
+  Created Date  :16-04-2020
+  Description   :To perform the list of operations specified
+  Requirements  :#include<iostream>,#include<fstream>,#include<vector>,#include<stdio.h>,#include<string.h>*/
+
 #include "file.h"
 #include<iostream>
 //including the container
