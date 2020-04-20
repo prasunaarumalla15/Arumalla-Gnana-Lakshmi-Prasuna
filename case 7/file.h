@@ -116,16 +116,16 @@ int searchupdate(vector<student> &std,char* cOption)
             s.getvalue();
             //the new value is pushed into file
             std.push_back(s);
+            for(it=std.begin();it!=std.end();it++)
+            {
+                s=*it;
+                //the file again written with updated values
+                outfile<<s.outkey()<<"="<<s.outvalue()<<endl;
+            }
             return 1;
+            outfile.close();
         }
     }
-    for(it=std.begin();it!=std.end();it++)
-    {
-        s=*it;
-        //the file again written with updated values
-        outfile<<s.outkey()<<"="<<s.outvalue()<<endl;
-    }
-    outfile.close();
 }
 
 /*Function Name :addtofile
