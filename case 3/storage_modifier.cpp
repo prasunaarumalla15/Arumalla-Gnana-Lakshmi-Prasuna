@@ -4,6 +4,7 @@
   Description   :To know the uses of modifiers,variable scope and storage classes
   Requirements  :#include<iostream>,#include<string.h*/
 
+#include "extern.h"
 #include<iostream>
 #include<string.h>
 using namespace std;
@@ -73,8 +74,9 @@ void nonStaticFun()
   Usage         :to know the usage of auto keyword*/
 
 //To understand how auto takes automatic return type based on compiler
-auto fun()
+auto fun()->void
 {
+    cout<<"Usage of Auto"<<endl;
     cout<<"Welcome to HCL"<<endl;
 }
 
@@ -123,7 +125,7 @@ int main(int argc,char* argv[])
         fun();
         staticFun();
         nonStaticFun();
-        cout<<"value of the variable which is globally declared can be considered as extern also:"<<iExtern_Num2<<endl;
+        cout<<"default value of the extern variable:"<<iExtern_Num2<<endl;
         test_function_storage();
         type_modifiers();
         staticFun();
@@ -133,6 +135,14 @@ int main(int argc,char* argv[])
         cout<<"value of the extern variable after changing:"<<iExtern_Num2<<endl;
         staticFun();
         nonStaticFun();
+        cout<<endl;
+        cout<<"Usage of Mutable"<<endl;
+        const square s( 4, 7 );
+        cout<<"Before using mutable with constant"<<endl;
+        s.print();
+        s.val();
+        cout << "After using mutable with constant" << endl;
+        s.print();
     }
     return 0;
 }
