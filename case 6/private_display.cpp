@@ -24,24 +24,30 @@ int main(int argc,char* argv[])
     {
         int iR_no;
         char cName_student[20];
-        Student ob;
-        Student ob1(10,"prasuna");
+        Student* ob=new Student();
+        ob->display();
+        Student* ob1=new Student(10,"prasuna");
+        ob1->display();
         //copy constructor is invoked
-        Student ob2=ob1;
-        ob1.display();
+        Student *ob2=new Student(*ob1);
         cout<<"After using copy constructor"<<endl;
-        cout<<"After Operator Overloading"<<endl;
-         //calling of increment operator overloading
-        ++ob2;
-        ob2.display();
-        cout<<"Using Member Function"<<endl;
+        ob2->display();
         cout<<"Enter Roll_No:";
         cin>>iR_no;
-        cout<<"Enter Name:";
+        cout<<"Enter Name less than 20 characters:";
         cin>>cName_student;
-        Student ob3;
-        ob3.Assign_Value(iR_no,cName_student);
-        ob3.display();
+        ob1->Assign_Value(iR_no,cName_student);
+        cout<<"After performing copy and assingning different values"<<endl;
+        ob2->display();
+        ob1->display();
+        cout<<"Assignment Operator is Invoked"<<endl;
+        ob1=ob2;
+        ob2->~Student();
+        ob1->display();
+        ob2=ob;
+        cout<<"After performing assingnment operation"<<endl;
+        ob2->display();
+        ob1->display();
     }
     return 0;
 }
