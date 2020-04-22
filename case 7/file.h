@@ -10,6 +10,7 @@
 #include<fstream>
 #include<stdio.h>
 #include<string.h>
+#include<cstdio>
 
 using namespace std;
 
@@ -75,7 +76,7 @@ public:
 void removefile()
 {
     student s;
-    int iCount;
+    int iCount=0;
     ifstream in("note.ini",ios::in);
     while(1)
     {
@@ -170,6 +171,7 @@ void deletefromfile(vector<student> &std)
 {
     char ckey[500];
     student s;
+    int iCount=0;
     vector<student>:: iterator it;
     ofstream outfile("note.ini",ios::trunc|ios::out);
     cout<<"Enter the key to delete:";
@@ -180,15 +182,16 @@ void deletefromfile(vector<student> &std)
         s=*it;
         if(strcmp(s.outkey(),ckey)==0)
         {
-            std.erase(it);
-            cout<<"Deleted"<<endl;
+                std.erase(it);
+                cout<<"Deleted"<<endl;
+                break;
         }
     }
     removefile();
     for(it=std.begin();it!=std.end();it++)
     {
-            s=*it;
-            outfile<<s.outkey()<<"="<<s.outvalue()<<"\n";
+        s=*it;
+        outfile<<s.outkey()<<"="<<s.outvalue()<<'\n';
     }
     outfile.close();
 }
@@ -208,6 +211,7 @@ void showfromfile()
         in.getline(cdata,500);
         cout<<cdata<<endl;
     }
+    removefile();
 }
 
 /*Function Name :searching
