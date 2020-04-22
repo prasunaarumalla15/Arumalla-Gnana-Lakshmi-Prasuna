@@ -22,7 +22,7 @@ public:
         *iRoll_no=0;
         *cName='\0';
     }
-    Student(int i_no,char *cname)
+    Student(int i_no,char cname[20])
     {
         cout<<"Parameterized Constructor is Invoked"<<endl;
         iRoll_no=new int;
@@ -32,6 +32,7 @@ public:
     //copy constructor
     Student(const Student& ob)
     {
+        //delete iRoll_no;
         iRoll_no=new int;
         strcpy(cName,ob.cName);
         //copying variables
@@ -46,9 +47,10 @@ public:
     void Assign_Value(int ino,char cname[])
     {
         iRoll_no=new int;
-        *iRoll_no=ino;
+        *this->iRoll_no=ino;
         strcpy(cName,cname);
     }
+
 /*Function Name :display
   Parameters    :no parameters
   Return Type   :no return type
@@ -59,16 +61,22 @@ public:
         cout<<"RollNo:"<<*iRoll_no<<endl<<"Name:"<<cName<<endl;
         cout<<endl;
     }
-
-     //increment operator overloading
-    void operator ++()
-    {
-        ++(*iRoll_no);
-    }
+    //Assignment operator overloading
+    void operator=(const Student& ob);
     //destructor
     ~Student()
     {
         cout<<"Deallocating Memory"<<endl;
-        delete iRoll_no;
     }
 };
+void Student::operator=(const Student& ob)
+{
+    if (&ob != this)
+    {
+        strcpy(cName,ob.cName);
+        //deleting previous memory
+        delete iRoll_no;
+        iRoll_no=new int;
+        iRoll_no=ob.iRoll_no;
+    }
+}
