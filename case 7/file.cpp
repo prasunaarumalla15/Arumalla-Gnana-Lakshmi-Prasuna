@@ -1,6 +1,6 @@
 /*File Name     :file_note.cc
   Author Name   :A.G.L.Prasuna
-  Created Date  :16-04-2020
+  Created Date  :23-04-2020
   Description   :To perform the list of operations specified
   Requirements  :#include<iostream>,#include<fstream>,#include<vector>,#include<stdio.h>,#include<string.h>*/
 
@@ -24,23 +24,43 @@ int main(int argc,char* argv[])
     }
     else
     {
+        student s;
         vector<student> std;
         vector<student>:: iterator it;
+        char ckey[50],cval[50];
+        char cSpace;
+        fstream in("note.ini",ios::out|ios::in);
+        if(in)
+        {
+            while(!in.eof())
+            {
+                in.get(ckey,50,'=');
+                fflush(stdin);
+                in>>s.c_equal;
+                in.get(cval,50,'\n');
+                in>>cSpace;
+                student s(ckey,cval);
+                std.push_back(s);
+                if(in.eof()) break;
+            }
+        }
+        in.close();
+        removefile(std);
         char cOpt;
         while(1)
         {
-            cout<<"Select your option 1.add 2.delete 3.display 4.search"<<endl;
+            cout<<"Select your option 1.addconfig 2.deleteconfig 3.listconfig 4.search"<<endl;
             cin>>cOpt;
             switch(cOpt)
             {
                 case '1':
-                        addtofile(std);
+                        s.addconfig(std);
                         break;
                 case '2':
-                        deletefromfile(std);
+                        s.deleteconfig(std);
                         break;
                 case '3':
-                        showfromfile();
+                        s.listconfig();
                         break;
                 case '4':
                         searching(std);
