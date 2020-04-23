@@ -1,6 +1,6 @@
 /*File Name     :file.h
   Author Name   :A.G.L.Prasuna
-  Created Date  :16-04-2020
+  Created Date  :23-04-2020
   Description   :To perform the list of operations specified
   Requirements  :#include<iostream>,#include<fstream>,#include<vector>,#include<stdio.h>,#include<string.h>*/
 
@@ -14,10 +14,25 @@
 
 using namespace std;
 
-class student{
-    char c_Key[500];
-    char c_Value[100];
+class student
+{
+    char c_Key[50];
+    char c_Value[50];
 public:
+    char c_equal;
+    student()
+    {
+
+    }
+    student(char *ckey,char *cval)
+    {
+        strcpy(c_Key,ckey);
+        strcpy(c_Value,cval);
+    }
+    char outequal()
+    {
+        return '=';
+    }
 
 /*Function Name :getkey
   Parameters    :no parameter
@@ -28,7 +43,7 @@ public:
     {
         cout<<"Enter key:";
         getchar();
-        cin.get(c_Key,500,'\n');
+        cin.get(c_Key,50,'\n');
     }
 
 /*Function Name :getvalue
@@ -40,7 +55,7 @@ public:
     {
         cout<<"Enter value:";
         getchar();
-        cin.get(c_Value,100,'\n');
+        cin.get(c_Value,50,'\n');
     }
 
 /*Function Name :outkey
@@ -62,10 +77,9 @@ public:
     {
         return c_Value;
     }
-    void display()
-    {
-        cout<<c_Key<<"\t"<<c_Value<<endl;
-    }
+    void addconfig(vector<student> &std);
+    void deleteconfig(vector<student> &std);
+    void listconfig();
 };
 
 /*Function Name :removefile
@@ -73,22 +87,11 @@ public:
   Return Type   :no return type
   Usage         :to remove file if file is empty*/
 
-void removefile()
+void removefile(vector<student> &std)
 {
-    student s;
-    int iCount=0;
-    ifstream in("note.ini",ios::in);
-    while(1)
+    if(std.empty())
     {
-        //reading the contents in file
-        in.read((char*)&s,sizeof(s));
-        iCount++;
-        //checking for end of file
-        if(in.eof())break;
-    }
-    if(iCount==0)
-    {
-        cout<<"file is removed"<<endl;
+        cout<<"file is removed since the file is empty"<<endl;
         //to remove file
         remove("note.ini");
     }
@@ -99,34 +102,39 @@ void removefile()
   Return Type   :int return type
   Usage         :to update the duplicate values*/
 
-int searchupdate(vector<student> &std,char* cOption)
+int searchupdate(vector<student> &std,char* cSearch)
 {
     student s;
+    int iCheck=0;
     //iterator creation to go word to word in file
     vector<student>:: iterator it;
     //inorder to write updated value opened in write mode
-    ofstream outfile("note.ini",ios::trunc|ios::out);
+
     for(it=std.begin();it!=std.end();it++)
     {
         s=*it;
-        if(strcmp(s.outkey(),cOption)==0)
+        if(strcmp(s.outkey(),cSearch)==0)
         {
             //the value is been deleted
             std.erase(it);
+            std.shrink_to_fit();
             cout<<"Enter value to update"<<endl;
             s.getvalue();
             //the new value is pushed into file
             std.push_back(s);
-            for(it=std.begin();it!=std.end();it++)
-            {
-                s=*it;
-                //the file again written with updated values
-                outfile<<s.outkey()<<"="<<s.outvalue()<<endl;
-            }
-            return 1;
-            outfile.close();
+            iCheck=1;
+            break;
         }
     }
+    ofstream outfile("note.ini",ios::trunc|ios::out);
+    for(it=std.begin();it!=std.end();it++)
+    {
+        s=*it;
+        //the file again written with updated values
+        outfile<<s.outkey()<<'='<<s.outvalue()<<endl;
+    }
+    outfile.close();
+    return iCheck;
 }
 
 /*Function Name :addtofile
@@ -134,84 +142,80 @@ int searchupdate(vector<student> &std,char* cOption)
   Return Type   :no return type
   Usage         :to add records in to file and store them in to a vector*/
 
-void addtofile(vector<student> &std)
+void student::addconfig(vector<student> &std)
 {
     student s;
     vector<student>:: iterator it;
-    char cOption='y';
-    while(cOption=='y')
+    s.getkey();
+
+    if(searchupdate(std,s.outkey())==1)
     {
-        ofstream outfile("note.ini",ios::trunc|ios::out);
-        s.getkey();
-        if(searchupdate(std,s.outkey())==1)
-            //checking for if the key is already present in the file or not
-            cout<<"updated"<<endl;
-        else
-        {
-            s.getvalue();
-            std.push_back(s);
-            for(it=std.begin();it!=std.end();it++)
-            {
-                s=*it;
-                outfile<<s.outkey()<<"="<<s.outvalue()<<endl;
-            }
-        }
-        cout<<"Do you want to append student data(y/n)?";
-        cin>>cOption;
-        outfile.close();
+        cout<<"updated"<<endl;
     }
+    else
+    {
+        fstream outfile("note.ini",ios::trunc|ios::out);
+        s.getvalue();
+        std.push_back(s);
+        for(it=std.begin();it!=std.end();it++)
+        {
+            s=*it;
+            outfile<<s.outkey()<<'='<<s.outvalue()<<endl;
+        }
+    outfile.close();
+    }
+
 }
 
-/*Function Name :deletefromfile
+/*Function Name :deleteconfig
   Parameters    :one vector object parameter
   Return Type   :no return type
   Usage         :to delete a record from file*/
 
-void deletefromfile(vector<student> &std)
+void student::deleteconfig(vector<student> &std)
 {
-    char ckey[500];
+    char ckey[50];
     student s;
-    int iCount=0;
     vector<student>:: iterator it;
-    ofstream outfile("note.ini",ios::trunc|ios::out);
+
     cout<<"Enter the key to delete:";
     getchar();
-    cin.get(ckey,500,'\n');
+    cin.get(ckey,50,'\n');
     for(it=std.begin();it!=std.end();it++)
     {
         s=*it;
         if(strcmp(s.outkey(),ckey)==0)
         {
-                std.erase(it);
-                cout<<"Deleted"<<endl;
-                break;
+            std.erase(it);
+            cout<<"Deleted"<<endl;
+            break;
         }
     }
-    removefile();
+      fstream outfile("note.ini",ios::trunc|ios::out);
     for(it=std.begin();it!=std.end();it++)
     {
         s=*it;
-        outfile<<s.outkey()<<"="<<s.outvalue()<<'\n';
+        outfile<<s.outkey()<<s.outequal()<<s.outvalue()<<endl;
     }
     outfile.close();
+    removefile(std);
 }
 
-/*Function Name :showfromfile
+/*Function Name :listconfig
   Parameters    :no parameter
   Return Type   :no return type
   Usage         :to display the contents in the file*/
 
-void showfromfile()
+void student::listconfig()
 {
     student s;
     ifstream in("note.ini",ios::in);
-    char cdata[500];
+    char cdata[100];
     while(!in.eof())
     {
-        in.getline(cdata,500);
+        in.getline(cdata,100,'\n');
         cout<<cdata<<endl;
     }
-    removefile();
 }
 
 /*Function Name :searching
@@ -223,8 +227,8 @@ void searching(vector<student> &std)
 {
     student s;
     char cCheck;
-    char cSearch_key[500];
-    char cSearch_value[100];
+    char cSearch_key[50];
+    char cSearch_value[50];
     vector<student>:: iterator it;
     ifstream in("note.ini",ios::in);
     cout<<"do u want search key or value(k/v):";
@@ -233,24 +237,24 @@ void searching(vector<student> &std)
     {
         cout<<"Enter key u want to search:";
         getchar();
-        cin.get(cSearch_key,500,'\n');
+        cin.get(cSearch_key,50,'\n');
         for(it=std.begin();it!=std.end();it++)
         {
             s=*it;
             if(strcmp(cSearch_key,s.outkey())==0)
-                cout<<s.outkey()<<"="<<s.outvalue()<<endl;
+                cout<<s.outkey()<<s.outequal()<<s.outvalue()<<endl;
         }
     }
     else if(cCheck=='v')
     {
         cout<<"Enter value u want to search:";
         getchar();
-        cin.get(cSearch_value,100,'\n');
+        cin.get(cSearch_value,50,'\n');
         for(it=std.begin();it!=std.end();it++)
         {
             s=*it;
             if(strcmp(cSearch_value,s.outvalue())==0)
-                cout<<s.outkey()<<"="<<s.outvalue()<<endl;
+                cout<<s.outkey()<<s.outequal()<<s.outvalue()<<endl;
         }
     }
     else
