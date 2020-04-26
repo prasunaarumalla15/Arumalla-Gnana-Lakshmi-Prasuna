@@ -16,22 +16,17 @@ using namespace std;
 
 class student
 {
-    char c_Key[50];
-    char c_Value[50];
+    string c_Key;
+    string c_Value;
 public:
-    char c_equal;
     student()
     {
 
     }
-    student(char *ckey,char *cval)
+    student(string ckey_cons,string cval_cons)
     {
-        strcpy(c_Key,ckey);
-        strcpy(c_Value,cval);
-    }
-    char outequal()
-    {
-        return '=';
+        c_Key=ckey_cons;
+        c_Value=cval_cons;
     }
 
 /*Function Name :getkey
@@ -42,8 +37,8 @@ public:
     void getkey()
     {
         cout<<"Enter key:";
-        getchar();
-        cin.get(c_Key,50,'\n');
+        fflush(stdin);
+        getline(cin,c_Key);
     }
 
 /*Function Name :getvalue
@@ -54,8 +49,8 @@ public:
     void getvalue()
     {
         cout<<"Enter value:";
-        getchar();
-        cin.get(c_Value,50,'\n');
+        fflush(stdin);
+        getline(cin,c_Value);
     }
 
 /*Function Name :outkey
@@ -63,7 +58,7 @@ public:
   Return Type   :char return type
   Usage         :to return the key*/
 
-    char* outkey()
+    string outkey()
     {
         return c_Key;
     }
@@ -73,12 +68,13 @@ public:
   Return Type   :string return type
   Usage         :to return value*/
 
-    char* outvalue()
+    string outvalue()
     {
         return c_Value;
     }
-    void addconfig(vector<student> &std);
-    void deleteconfig(vector<student> &std);
+
+    void addconfig(vector<student> &vec);
+    void deleteconfig(vector<student> &vec);
     void listconfig();
 };
 
@@ -87,9 +83,9 @@ public:
   Return Type   :no return type
   Usage         :to remove file if file is empty*/
 
-void removefile(vector<student> &std)
+void removefile(vector<student> &vec)
 {
-    if(std.empty())
+    if(vec.empty())
     {
         cout<<"file is removed since the file is empty"<<endl;
         //to remove file
@@ -102,32 +98,31 @@ void removefile(vector<student> &std)
   Return Type   :int return type
   Usage         :to update the duplicate values*/
 
-int searchupdate(vector<student> &std,char* cSearch)
+int searchupdate(vector<student> &vec,string cSearch_key)
 {
     student s;
     int iCheck=0;
     //iterator creation to go word to word in file
     vector<student>:: iterator it;
     //inorder to write updated value opened in write mode
-
-    for(it=std.begin();it!=std.end();it++)
+    for(it=vec.begin();it!=vec.end();it++)
     {
         s=*it;
-        if(strcmp(s.outkey(),cSearch)==0)
+        if(s.outkey()==cSearch_key)
         {
             //the value is been deleted
-            std.erase(it);
-            std.shrink_to_fit();
+            vec.erase(it);
+           // vec.shrink_to_fit();
             cout<<"Enter value to update"<<endl;
             s.getvalue();
             //the new value is pushed into file
-            std.push_back(s);
+            vec.push_back(s);
             iCheck=1;
             break;
         }
     }
     ofstream outfile("note.ini",ios::trunc|ios::out);
-    for(it=std.begin();it!=std.end();it++)
+    for(it=vec.begin();it!=vec.end();it++)
     {
         s=*it;
         //the file again written with updated values
@@ -137,18 +132,17 @@ int searchupdate(vector<student> &std,char* cSearch)
     return iCheck;
 }
 
-/*Function Name :addtofile
+/*Function Name :addconfig
   Parameters    :one vector object parameter
   Return Type   :no return type
   Usage         :to add records in to file and store them in to a vector*/
 
-void student::addconfig(vector<student> &std)
+void student::addconfig(vector<student> &vec)
 {
     student s;
     vector<student>:: iterator it;
     s.getkey();
-
-    if(searchupdate(std,s.outkey())==1)
+    if(searchupdate(vec,s.outkey())==1)
     {
         cout<<"updated"<<endl;
     }
@@ -156,15 +150,14 @@ void student::addconfig(vector<student> &std)
     {
         fstream outfile("note.ini",ios::trunc|ios::out);
         s.getvalue();
-        std.push_back(s);
-        for(it=std.begin();it!=std.end();it++)
+        vec.push_back(s);
+        for(it=vec.begin();it!=vec.end();it++)
         {
             s=*it;
             outfile<<s.outkey()<<'='<<s.outvalue()<<endl;
         }
-    outfile.close();
+        outfile.close();
     }
-
 }
 
 /*Function Name :deleteconfig
@@ -172,33 +165,32 @@ void student::addconfig(vector<student> &std)
   Return Type   :no return type
   Usage         :to delete a record from file*/
 
-void student::deleteconfig(vector<student> &std)
+void student::deleteconfig(vector<student> &vec)
 {
-    char ckey[50];
+    string ckey_delete;
     student s;
     vector<student>:: iterator it;
-
     cout<<"Enter the key to delete:";
     getchar();
-    cin.get(ckey,50,'\n');
-    for(it=std.begin();it!=std.end();it++)
+    getline(cin,ckey_delete);
+    for(it=vec.begin();it!=vec.end();it++)
     {
         s=*it;
-        if(strcmp(s.outkey(),ckey)==0)
+        if(s.outkey()==ckey_delete)
         {
-            std.erase(it);
+            vec.erase(it);
             cout<<"Deleted"<<endl;
             break;
         }
     }
-      fstream outfile("note.ini",ios::trunc|ios::out);
-    for(it=std.begin();it!=std.end();it++)
+    fstream outfile("note.ini",ios::trunc|ios::out);
+    for(it=vec.begin();it!=vec.end();it++)
     {
         s=*it;
-        outfile<<s.outkey()<<s.outequal()<<s.outvalue()<<endl;
+        outfile<<s.outkey()<<'='<<s.outvalue()<<endl;
     }
     outfile.close();
-    removefile(std);
+    removefile(vec);
 }
 
 /*Function Name :listconfig
@@ -210,12 +202,13 @@ void student::listconfig()
 {
     student s;
     ifstream in("note.ini",ios::in);
-    char cdata[100];
+    string cdata;
     while(!in.eof())
     {
-        in.getline(cdata,100,'\n');
+        getline(in,cdata);
         cout<<cdata<<endl;
     }
+    in.close();
 }
 
 /*Function Name :searching
@@ -223,12 +216,12 @@ void student::listconfig()
   Return Type   :no return type
   Usage         :to search for a key or value and displaying*/
 
-void searching(vector<student> &std)
+void searching(vector<student> &vec)
 {
     student s;
     char cCheck;
-    char cSearch_key[50];
-    char cSearch_value[50];
+    string cSearch_key;
+    string cSearch_value;
     vector<student>:: iterator it;
     ifstream in("note.ini",ios::in);
     cout<<"do u want search key or value(k/v):";
@@ -237,26 +230,27 @@ void searching(vector<student> &std)
     {
         cout<<"Enter key u want to search:";
         getchar();
-        cin.get(cSearch_key,50,'\n');
-        for(it=std.begin();it!=std.end();it++)
+        getline(cin,cSearch_key);
+        for(it=vec.begin();it!=vec.end();it++)
         {
             s=*it;
-            if(strcmp(cSearch_key,s.outkey())==0)
-                cout<<s.outkey()<<s.outequal()<<s.outvalue()<<endl;
+            if(cSearch_key==s.outkey())
+                cout<<s.outkey()<<'='<<s.outvalue()<<endl;
         }
     }
     else if(cCheck=='v')
     {
         cout<<"Enter value u want to search:";
         getchar();
-        cin.get(cSearch_value,50,'\n');
-        for(it=std.begin();it!=std.end();it++)
+        getline(cin,cSearch_value);
+        for(it=vec.begin();it!=vec.end();it++)
         {
             s=*it;
-            if(strcmp(cSearch_value,s.outvalue())==0)
-                cout<<s.outkey()<<s.outequal()<<s.outvalue()<<endl;
+            if(cSearch_value==s.outvalue())
+                cout<<s.outkey()<<'='<<s.outvalue()<<endl;
         }
     }
     else
         cout<<"Enter k or v"<<endl;
+    in.close();
 }
