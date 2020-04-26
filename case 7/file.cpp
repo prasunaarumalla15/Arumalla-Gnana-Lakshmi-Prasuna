@@ -13,6 +13,7 @@
 #include<string.h>
 
 using namespace std;
+
 int main(int argc,char* argv[])
 {
     if(argc==2)
@@ -24,28 +25,27 @@ int main(int argc,char* argv[])
     }
     else
     {
-        student s;
-        vector<student> std;
+        student ob;
+        vector<student> vec;
         vector<student>:: iterator it;
-        char ckey[50],cval[50];
-        char cSpace;
+        string cfile_key,cfile_val;
         fstream in("note.ini",ios::out|ios::in);
         if(in)
         {
             while(!in.eof())
             {
-                in.get(ckey,50,'=');
-                fflush(stdin);
-                in>>s.c_equal;
-                in.get(cval,50,'\n');
-                in>>cSpace;
-                student s(ckey,cval);
-                std.push_back(s);
+                getline(in,cfile_key,'=');
+                getline(in,cfile_val);
+                //sending key and value to parameterized constructor
+                student ob(cfile_key,cfile_val);
                 if(in.eof()) break;
+                if(!(cfile_key.empty()))
+                vec.push_back(ob);
             }
         }
         in.close();
-        removefile(std);
+        //removing file if file is empty
+        removefile(vec);
         char cOpt;
         while(1)
         {
@@ -54,16 +54,16 @@ int main(int argc,char* argv[])
             switch(cOpt)
             {
                 case '1':
-                        s.addconfig(std);
+                        ob.addconfig(vec);
                         break;
                 case '2':
-                        s.deleteconfig(std);
+                        ob.deleteconfig(vec);
                         break;
                 case '3':
-                        s.listconfig();
+                        ob.listconfig();
                         break;
                 case '4':
-                        searching(std);
+                        searching(vec);
                         break;
                 default:
                         return 0;
