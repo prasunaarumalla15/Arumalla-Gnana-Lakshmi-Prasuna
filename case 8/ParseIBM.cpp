@@ -331,7 +331,7 @@ bool ParseIBMString::getIBM(string filename)
 
 int main(int argc, char *argv[])
 {
-	if (argc==2 && strcmp(argv[1],"-h")==0)
+    if (argc==2 && strcmp(argv[1],"-h")==0)
     {
         cout<<argv[0]<<" filename.txt"<<endl;
     }
