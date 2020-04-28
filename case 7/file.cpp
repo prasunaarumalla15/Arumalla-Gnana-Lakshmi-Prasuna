@@ -32,18 +32,18 @@ int main(int argc,char* argv[])
         student ob;
         vector<student> vec;
         vector<student>:: iterator it;
-        string cfile_key,cfile_val;
+        string sfile_key,sfile_val;
         fstream in("note.ini",ios::out|ios::in);
         if(in)
         {
             while(!in.eof())
             {
-                getline(in,cfile_key,'=');
-                getline(in,cfile_val);
+                getline(in,sfile_key,'=');
+                getline(in,sfile_val);
                 //sending key and value to parameterized constructor
-                student ob(cfile_key,cfile_val);
+                student ob(sfile_key,sfile_val);
                 if(in.eof()) break;
-                if(!(cfile_key.empty()))
+                if(!(sfile_key.empty()))
                 vec.push_back(ob);
             }
         }

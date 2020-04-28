@@ -16,17 +16,17 @@ using namespace std;
 
 class student
 {
-    string c_Key;
-    string c_Value;
+    string s_Key;
+    string s_Value;
 public:
     student()
     {
 
     }
-    student(string ckey_cons,string cval_cons)
+    student(string sKey_cons,string sVal_cons)
     {
-        c_Key=ckey_cons;
-        c_Value=cval_cons;
+        s_Key=sKey_cons;
+        s_Value=sVal_cons;
     }
 
 /*Function Name :getkey
@@ -38,7 +38,7 @@ public:
     {
         cout<<"Enter key:";
         fflush(stdin);
-        getline(cin,c_Key);
+        getline(cin,s_Key);
     }
 
 /*Function Name :getvalue
@@ -50,7 +50,7 @@ public:
     {
         cout<<"Enter value:";
         fflush(stdin);
-        getline(cin,c_Value);
+        getline(cin,s_Value);
     }
 
 /*Function Name :outkey
@@ -60,7 +60,7 @@ public:
 
     string outkey()
     {
-        return c_Key;
+        return s_Key;
     }
 
 /*Function Name :outvalue
@@ -70,7 +70,7 @@ public:
 
     string outvalue()
     {
-        return c_Value;
+        return s_Value;
     }
 
     void addconfig(vector<student> &vec);
@@ -98,7 +98,7 @@ void removefile(vector<student> &vec)
   Return Type   :int return type
   Usage         :to update the duplicate values*/
 
-int searchupdate(vector<student> &vec,string cSearch_key)
+int searchupdate(vector<student> &vec,string sSearch_key)
 {
     student s;
     int iCheck=0;
@@ -108,7 +108,7 @@ int searchupdate(vector<student> &vec,string cSearch_key)
     for(it=vec.begin();it!=vec.end();it++)
     {
         s=*it;
-        if(s.outkey()==cSearch_key)
+        if(s.outkey()==sSearch_key)
         {
             //the value is been deleted
             vec.erase(it);
@@ -167,16 +167,16 @@ void student::addconfig(vector<student> &vec)
 
 void student::deleteconfig(vector<student> &vec)
 {
-    string ckey_delete;
+    string skey_delete;
     student s;
     vector<student>:: iterator it;
     cout<<"Enter the key to delete:";
     getchar();
-    getline(cin,ckey_delete);
+    getline(cin,skey_delete);
     for(it=vec.begin();it!=vec.end();it++)
     {
         s=*it;
-        if(s.outkey()==ckey_delete)
+        if(s.outkey()==skey_delete)
         {
             vec.erase(it);
             cout<<"Deleted"<<endl;
@@ -202,11 +202,11 @@ void student::listconfig()
 {
     student s;
     ifstream in("note.ini",ios::in);
-    string cdata;
+    string sData;
     while(!in.eof())
     {
-        getline(in,cdata);
-        cout<<cdata<<endl;
+        getline(in,sData);
+        cout<<sData<<endl;
     }
     in.close();
 }
@@ -220,8 +220,8 @@ void searching(vector<student> &vec)
 {
     student s;
     char cCheck;
-    string cSearch_key;
-    string cSearch_value;
+    string sSearch_key;
+    string sSearch_value;
     vector<student>:: iterator it;
     ifstream in("note.ini",ios::in);
     cout<<"do u want search key or value(k/v):";
@@ -230,11 +230,11 @@ void searching(vector<student> &vec)
     {
         cout<<"Enter key u want to search:";
         getchar();
-        getline(cin,cSearch_key);
+        getline(cin,sSearch_key);
         for(it=vec.begin();it!=vec.end();it++)
         {
             s=*it;
-            if(cSearch_key==s.outkey())
+            if(sSearch_key==s.outkey())
                 cout<<s.outkey()<<'='<<s.outvalue()<<endl;
         }
     }
@@ -242,11 +242,11 @@ void searching(vector<student> &vec)
     {
         cout<<"Enter value u want to search:";
         getchar();
-        getline(cin,cSearch_value);
+        getline(cin,sSearch_value);
         for(it=vec.begin();it!=vec.end();it++)
         {
             s=*it;
-            if(cSearch_value==s.outvalue())
+            if(sSearch_value==s.outvalue())
                 cout<<s.outkey()<<'='<<s.outvalue()<<endl;
         }
     }
