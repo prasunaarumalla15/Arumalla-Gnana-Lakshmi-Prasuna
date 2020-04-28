@@ -22,6 +22,10 @@ int main(int argc,char* argv[])
         {
             cout<<"select required option"<<endl;
         }
+        else
+        {
+            cout<<"use "<<argv[0]<<" -h command"<<endl;
+        }
     }
     else
     {
