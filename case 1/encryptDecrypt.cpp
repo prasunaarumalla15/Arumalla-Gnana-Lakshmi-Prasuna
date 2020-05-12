@@ -144,14 +144,12 @@ void EncryptDecrypt::Encryption(string file)
 
 void EncryptDecrypt::decryptreverse(string sDecrypt_Line)
 {
-    int iCheck=0;
     stringstream ss(sDecrypt_Line);
     while(ss>>sDecrypt_Line)
     {
         reverse(sDecrypt_Line.begin(),sDecrypt_Line.end());
         //reversing each word
         cout<<sDecrypt_Line<<' ';
-        iCheck=0;
     }
     cout<<endl;
 }
