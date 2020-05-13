@@ -18,20 +18,36 @@
 //to use replace and reverse functions
 using namespace std;
 
+/*EncryptDecrypt class contains int and char variables initialized to 0
+using default constructor and a list of members functions to perform
+encryption and decryption of data in a file*/
+
 class EncryptDecrypt
 {
     int iCount;
     int iLength;
     int iStart;
+    int iNumber;
+    char cAlpha_numeric;
 public:
-    void Encryption(string);
+    EncryptDecrypt()
+    {
+        iCount=0;
+        iLength=0;
+        iStart=0;
+        iNumber=0;
+        cAlpha_numeric='0';
+    }
+    ~EncryptDecrypt()
+    {
+        cout<<"deallocating memory";
+    }
+    void Encryption(char*,char*);
     void Decryption(char*);
-    void ReverseOrder(string,int);
     char outAlphaNum();
     void decryptreverse(string);
     string Encryptmethod(char*);
     string Decryptmethod(string);
-    void decryptfile();
 };
 
 #endif

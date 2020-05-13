@@ -76,61 +76,48 @@ char EncryptDecrypt::outAlphaNum()
     getline(infile,sAlpha_num,'=');
     infile>>cOutalphanum;
     //extracting that character
+    infile.close();
     return cOutalphanum;
 }
 
-/*Function Name :ReverseOrder
-  Parameters    :two parameter(string and int)
-  Return Type   :no return type
-  Usage         :to reverse each word in a file and writing that to encrypted file*/
-
-void EncryptDecrypt::ReverseOrder(string sData,int iCount)
-{
-    ofstream outfile("encrypted.txt",ios::app);
-    stringstream ss(sData);
-    int iNumber=0;
-    while(ss>>sData)
-    {
-        iNumber++;
-        //checking for no.of words in a file
-        reverse(sData.begin(),sData.end());
-        outfile<<sData;
-        if(iNumber<iCount)
-            outfile<<outAlphaNum();
-        //checking if the word is end of line
-    }
-    outfile<<endl;
-    outfile.close();
-}
-
 /*Function Name :Encryption
-  Parameters    :one parameter(string)
+  Parameters    :two parameter(char*,char*)
   Return Type   :no return type
-  Usage         :to write the character to replace the space in file and sending each line of input file to ReverseOrder*/
+  Usage         :to write the character to replace the space into file
+                 and enter key and data in inout file to encrypt file in encrypt format*/
 
-void EncryptDecrypt::Encryption(string file)
+void EncryptDecrypt::Encryption(char* cfile,char* cInput_key)
 {
-    ifstream infile(file,ios::in);
+    ifstream infile(cfile,ios::in);
     if(infile.is_open())
     {
-        ofstream outfile("alphanum.txt",ios::out);
-        char cAlpha_numeric;
+        ofstream outfile_alpha("alphanum.txt",ios::out);
         cout<<"Enter the alpha numeric character that u want to replace with space:";
         cin>>cAlpha_numeric;
-        outfile<<"alphanum "<<'='<<' '<<cAlpha_numeric;
-        outfile.close();
+        outfile_alpha<<"alphanum "<<'='<<' '<<cAlpha_numeric;
+        outfile_alpha.close();
+        ofstream outfile("encrypted.txt",ios::out);
+        outfile<<"PassCode "<<'='<<' '<<Encryptmethod(cInput_key)<<endl;
+        //writing the pass code into the encrypted file
         string sLine,sWord_file;
-        int iCount;
         while(!infile.eof())
         {
-            iCount=0;
             getline(infile,sLine);
             stringstream ss(sLine);
             while(ss>>sWord_file)
-                iCount++;
-            //checking for no.of words in a line
-            ReverseOrder(sLine,iCount);
+            {
+                iNumber+=sWord_file.length()+1;
+                //checking for no.of words in a file
+                reverse(sWord_file.begin(),sWord_file.end());
+                outfile<<sWord_file;
+                if(iNumber<sLine.length())
+                    outfile<<outAlphaNum();
+                //checking if the word is end of line
+            }
+            iNumber=0;
+            outfile<<endl;
         }
+        outfile.close();
         infile.close();
     }
     else
@@ -154,28 +141,6 @@ void EncryptDecrypt::decryptreverse(string sDecrypt_Line)
     cout<<endl;
 }
 
-/*Function Name :decryptfile
-  Parameters    :no parameter
-  Return Type   :no return type
-  Usage         :to replace the alphanumeric char with space and sending each word of encrypted file decryptreverse*/
-
-void EncryptDecrypt::decryptfile()
-{
-    ifstream infile("encrypted.txt",ios::in);
-    string sOut_line;
-    getline(infile,sOut_line);
-    //neglecting the key line in encrypt file
-    while(!infile.eof())
-    {
-        getline(infile,sOut_line);
-        replace(sOut_line.begin(),sOut_line.end(),outAlphaNum(),' ');
-        //replacing the alphanumeric with space
-        decryptreverse(sOut_line);
-        if(infile.eof())break;
-    }
-    infile.close();
-}
-
 /*Function Name :Decryption
   Parameters    :one parameter(char*)
   Return Type   :no return type
@@ -186,7 +151,6 @@ void EncryptDecrypt::Decryption(char* cCode_key)
     ifstream infile("encrypted.txt",ios::in);
     string sLines,skey;
     getline(infile,sLines);
-    iStart=0;
     stringstream ss(sLines);
     while(ss>>sLines)
     {
@@ -198,9 +162,18 @@ void EncryptDecrypt::Decryption(char* cCode_key)
         }
         iStart++;
     }
-    infile.close();
     if(strcmp(Decryptmethod(skey).c_str(),cCode_key)==0)
-        decryptfile();
+    {
+        while(!infile.eof())
+        {
+            getline(infile,sLines);
+            replace(sLines.begin(),sLines.end(),outAlphaNum(),' ');
+            //replacing the alphanumeric with space
+            decryptreverse(sLines);
+            if(infile.eof())break;
+        }
+        infile.close();
+    }
     else
         cout<<"The pass code doesn't match"<<endl;
 }
@@ -209,7 +182,6 @@ void EncryptDecrypt::Decryption(char* cCode_key)
 int main(int argc,char* argv[])
 {
     EncryptDecrypt encryptdecrypt;
-    string sfile="encrypted.txt";
     if(argc==1)
     {
         cout<<"use "<<argv[0]<<" -h command"<<endl;
@@ -221,44 +193,45 @@ int main(int argc,char* argv[])
         cout<<"\t OR"<<endl;
         cout<<argv[0]<<" -d/-e -k [secret key] -f [filename]"<<endl;
     }
-    else
+    else if(argc==6)
     {
         if(strcmp(argv[1],"-d")==0)
         {
-            //In decryption sending the pass code based on -f position
-            if(strcmp(argv[2],"-f")==0)
+            //In decryption sending the pass code
+            if(strcmp(argv[2],"-f")==0 && strcmp(argv[4],"-k")==0)
             {
-                if(strcmp(argv[3],sfile.c_str())==0)
+                if(strcmp(argv[3],"encrypted.txt")==0)
                     encryptdecrypt.Decryption(argv[5]);
                 else
                     cout<<"There is no such encrypted file"<<endl;
             }
-            else if(strcmp(argv[4],"-f")==0)
+            else if(strcmp(argv[4],"-f")==0 && strcmp(argv[2],"-k")==0)
             {
-                if(strcmp(argv[5],sfile.c_str())==0)
+                if(strcmp(argv[5],"encrypted.txt")==0)
                     encryptdecrypt.Decryption(argv[3]);
                 else
                     cout<<"There is no such encrypted file"<<endl;
             }
+            else
+                cout<<"Use "<<argv[0]<<" -h command"<<endl;
         }
         else if(strcmp(argv[1],"-e")==0)
         {
-            ofstream outfile("encrypted.txt",ios::out);
-            if(strcmp(argv[2],"-f")==0)
+            if(strcmp(argv[2],"-f")==0 && strcmp(argv[4],"-k")==0)
             {
-                outfile<<"PassCode "<<'='<<' '<<encryptdecrypt.Encryptmethod(argv[5])<<endl;
-                //writing the pass code into the encrypted file
-                encryptdecrypt.Encryption(argv[3]);
+                 encryptdecrypt.Encryption(argv[3],argv[5]);
             }
-            else if(strcmp(argv[4],"-f")==0)
+            else if(strcmp(argv[4],"-f")==0 && strcmp(argv[2],"-k")==0)
             {
-                outfile<<"PassCode "<<'='<<' '<<encryptdecrypt.Encryptmethod(argv[3])<<endl;
-                encryptdecrypt.Encryption(argv[5]);
+               encryptdecrypt.Encryption(argv[5],argv[3]);
             }
-            outfile.close();
+            else
+                cout<<"Use "<<argv[0]<<" -h command"<<endl;
         }
         else
-            cout<<"enter correct format"<<endl;
+            cout<<"Use "<<argv[0]<<" -h command"<<endl;
     }
+    else
+        cout<<"Use "<<argv[0]<<" -h command"<<endl;
     return 0;
 }
