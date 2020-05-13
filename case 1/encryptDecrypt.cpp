@@ -10,6 +10,7 @@
 #include<fstream>
 #include<sstream>
 #include<algorithm>
+#include<stdio.h>
 using namespace std;
 
 /*Function Name :Encryptmethod
@@ -70,13 +71,14 @@ string EncryptDecrypt::Decryptmethod(string sCode)
 
 char EncryptDecrypt::outAlphaNum()
 {
-    ifstream infile("alphanum.txt",ios::in);
+    ifstream infile("alphanum.txt");
     string sAlpha_num;
     char cOutalphanum;
     getline(infile,sAlpha_num,'=');
     infile>>cOutalphanum;
     //extracting that character
     infile.close();
+    remove("alphanum.txt");
     return cOutalphanum;
 }
 
@@ -111,7 +113,7 @@ void EncryptDecrypt::Encryption(char* cfile,char* cInput_key)
                 reverse(sWord_file.begin(),sWord_file.end());
                 outfile<<sWord_file;
                 if(iNumber<sLine.length())
-                    outfile<<outAlphaNum();
+                    outfile<<cAlpha_numeric;
                 //checking if the word is end of line
             }
             iNumber=0;
@@ -164,10 +166,11 @@ void EncryptDecrypt::Decryption(char* cCode_key)
     }
     if(strcmp(Decryptmethod(skey).c_str(),cCode_key)==0)
     {
+        char cOutAlphanum_decrypt=outAlphaNum();
         while(!infile.eof())
         {
             getline(infile,sLines);
-            replace(sLines.begin(),sLines.end(),outAlphaNum(),' ');
+            replace(sLines.begin(),sLines.end(),cOutAlphanum_decrypt,' ');
             //replacing the alphanumeric with space
             decryptreverse(sLines);
             if(infile.eof())break;
@@ -219,11 +222,17 @@ int main(int argc,char* argv[])
         {
             if(strcmp(argv[2],"-f")==0 && strcmp(argv[4],"-k")==0)
             {
-                 encryptdecrypt.Encryption(argv[3],argv[5]);
+                if(strcmp(argv[2],"encrypted.txt")==0)
+                    cout<<"That is encrypted file,enter normal text file"<<endl;
+                else
+                    encryptdecrypt.Encryption(argv[3],argv[5]);
             }
             else if(strcmp(argv[4],"-f")==0 && strcmp(argv[2],"-k")==0)
             {
-               encryptdecrypt.Encryption(argv[5],argv[3]);
+                if(strcmp(argv[5],"encrypted.txt")==0)
+                    cout<<"That is encrypted file,enter normal text file"<<endl;
+                else
+                    encryptdecrypt.Encryption(argv[5],argv[3]);
             }
             else
                 cout<<"Use "<<argv[0]<<" -h command"<<endl;
