@@ -43,7 +43,7 @@ public:
         cout<<"deallocating memory";
     }
     void Encryption(char*,char*);
-    void Decryption(char*);
+    void Decryption(char*,char*);
     char outAlphaNum();
     void decryptreverse(string);
     string Encryptmethod(char*);
