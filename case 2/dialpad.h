@@ -14,13 +14,17 @@
 
 using namespace std;
 
-/*The class contains an integer variable initialized to zero and two member functions
+/*The class contains a string variable initialized to zero and two member functions
 one to store associate string in number and other to find combinations with that string*/
 
 class DialPad
 {
+    string sOut_pad;
 public:
-    DialPad(){}
+    DialPad()
+    {
+        sOut_pad={};
+    }
     ~DialPad()
     {
         cout<<"Deallocating memory"<<endl;

@@ -52,9 +52,8 @@ void DialPad::Inputstring(string sInput)
     phone_dialpad.insert({7,"pqrs"});
     phone_dialpad.insert({8,"tuv"});
     phone_dialpad.insert({9,"wxyz"});
-    string sOut_pad={};
-    //an empty string to store the output
     Combinations(phone_dialpad,sInput,sOut_pad);
+    //an empty list to store output is sOut_pad
 }
 int main(int argc,char* argv[])
 {
