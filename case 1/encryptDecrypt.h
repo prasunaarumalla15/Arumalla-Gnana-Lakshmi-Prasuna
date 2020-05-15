@@ -11,11 +11,7 @@
 //defining the header file
 
 #include <iostream>
-#include<string.h>
-#include<fstream>
-#include<sstream>
-#include<algorithm>
-//to use replace and reverse functions
+
 using namespace std;
 
 /*EncryptDecrypt class contains int and char variables initialized to 0
@@ -29,6 +25,9 @@ class EncryptDecrypt
     int iStart;
     int iNumber;
     char cAlpha_numeric;
+    char outAlphaNum();
+    string Encryptmethod(char*);
+    string Decryptmethod(string);
 public:
     EncryptDecrypt()
     {
@@ -42,12 +41,8 @@ public:
     {
         cout<<"deallocating memory";
     }
-    void Encryption(char*,char*);
-    void Decryption(char*,char*);
-    char outAlphaNum();
-    void decryptreverse(string);
-    string Encryptmethod(char*);
-    string Decryptmethod(string);
+    bool Encryption(char*,char*);
+    bool Decryption(char*,char*);
 };
 
 #endif
