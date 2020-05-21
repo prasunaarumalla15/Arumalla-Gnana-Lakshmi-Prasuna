@@ -216,3 +216,66 @@ bool EncryptDecrypt::Decryption(char* cCode_key,char* cInput_file)
         return 0;
     }
 }
+
+/*Function Name :checkingEncrypt_Decrypt
+  Parameters    :two parameter(int,char**)
+  Return Type   :string return type
+  Usage         :to compare input command line arguments with -f,-k,-d and -e to perform necessary function*/
+
+string EncryptDecrypt::checkingEncrypt_Decrypt(int argc,char* argv[])
+{
+    for(int iArg=0;iArg<argc;iArg++)
+    {
+        if(strcmp(argv[iArg],"-f")==0)
+        {
+            if(strcmp(argv[4],"-k")==0)
+            {
+                if(strcmp(argv[1],"-d")==0)
+                {
+                    if(Decryption(argv[5],argv[3])==1)
+                    //checking whether the return type is 1 or 0 from function
+                        return "Decryption is Success";
+                    else
+                        return "Decryption is Failure";
+                }
+                else if(strcmp(argv[1],"-e")==0)
+                {
+                    if(strcmp(argv[3],"encrypted.txt")==0)
+                        return "That is already encrypted file,enter normal text file";
+                    else
+                    {
+                        if(Encryption(argv[3],argv[5])==1)
+                            return "Encryption is Success";
+                        else
+                            return "Encryption is Failure";
+                    }
+                }
+            }
+        }
+        else if(strcmp(argv[iArg],"-k")==0)
+        {
+            if(strcmp(argv[4],"-f")==0)
+            {
+                if(strcmp(argv[1],"-d")==0)
+                {
+                    if(Decryption(argv[3],argv[5])==1)
+                        return "Decryption is Success";
+                    else
+                        return "Decryption is Failure";
+                }
+                else if(strcmp(argv[1],"-e")==0)
+                {
+                    if(strcmp(argv[5],"encrypted.txt")==0)
+                        return "That is already encrypted file,enter normal text file";
+                    else
+                    {
+                        if(Encryption(argv[5],argv[3])==1)
+                            return "Encryption is Success";
+                        else
+                            return "Encryption is Failure";
+                    }
+                }
+            }
+        }
+    }
+}

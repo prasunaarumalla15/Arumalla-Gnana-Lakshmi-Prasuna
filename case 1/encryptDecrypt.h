@@ -28,6 +28,8 @@ class EncryptDecrypt
     char outAlphaNum();
     string Encryptmethod(char*);
     string Decryptmethod(string);
+    bool Encryption(char*,char*);
+    bool Decryption(char*,char*);
 public:
     EncryptDecrypt()
     {
@@ -41,8 +43,7 @@ public:
     {
         cout<<"deallocating memory";
     }
-    bool Encryption(char*,char*);
-    bool Decryption(char*,char*);
+    string checkingEncrypt_Decrypt(int,char**);
 };
 
 #endif
