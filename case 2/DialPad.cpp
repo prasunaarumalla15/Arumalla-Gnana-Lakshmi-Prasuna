@@ -11,7 +11,6 @@
 
 using namespace std;
 
-
 /*Function Name :Combinations
   Parameters    :three parameters(map object,input string and output string)
   Return Type   :bool return type
@@ -19,9 +18,9 @@ using namespace std;
 
 bool DialPad::Combinations(map<int,string> Dial,string sInput_pad,string sOut)
 {
-    stringstream ss(sInput_pad);
+    stringstream to_int(sInput_pad);
     int iInput;
-    ss>>iInput;
+    to_int>>iInput;
     if(iInput==0)
     {
         cout<<'"'<<sOut<<'"'<<" ";
@@ -55,10 +54,8 @@ void DialPad::Inputstring(string sInput)
     cout<<"[";
     if(Combinations(phone_dialpad,sInput,sOut_pad)==1)
     {
-    //an empty list to store output is sOut_pad
+        //an empty list to store output is sOut_pad
         cout<<"]"<<endl;
         cout<<"Success"<<endl;
     }
-    else
-        cout<<"Failure"<<endl;
 }

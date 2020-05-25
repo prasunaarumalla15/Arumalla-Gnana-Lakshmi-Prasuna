@@ -23,15 +23,13 @@ int main(int argc,char* argv[])
         cout<<"Input:";
         cin>>sNumber;
         DialPad dialpad;
-        if(sNumber.find('1') != string::npos || sNumber.find('0') != string::npos)
-        {
-            cout<<"Enter string Between 2-9"<<endl;
-            //checking whether the string contains 0's or 1's
-            cout<<"Failure"<<endl;
-        }
+        if(sNumber.find_first_not_of("23456789")==string::npos)
+        //searches for first occurance of char not specified in string with sNumber else return npos
+            dialpad.Inputstring(sNumber);
         else
         {
-            dialpad.Inputstring(sNumber);
+            cout<<"Failure"<<endl;
+            cout<<"Enter string Between 2-9"<<endl;
         }
     }
     return 0;
