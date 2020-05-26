@@ -19,9 +19,9 @@ int main(int argc,char* argv[])
     if(argc==2 && strcmp(argv[1],"-h")==0)
     {
         cout<<"usage: "<<endl;
-        cout<<argv[0]<<" -d/-e -f [filename] -k [secret key]"<<endl;
+        cout<<argv[0]<<" -d -f [encrypted filename] -k [secret key]"<<endl;
         cout<<"\t OR"<<endl;
-        cout<<argv[0]<<" -d/-e -k [secret key] -f [filename]"<<endl;
+        cout<<argv[0]<<" -e -k [secret key] -f [normal filename]"<<endl;
     }
     //help command
     if(argc>2)
@@ -46,7 +46,7 @@ int main(int argc,char* argv[])
             else
                 cout<<"Decryption is Failure"<<endl;
         }
-        else if(sType_method=="-e")
+        else if(sType_method=="-e" && sFile_Command_Argument!="encrypted.txt")
         {
             if(encryptdecrypt.Encryption(sFile_Command_Argument,sKey_Command_Argument)==1)
                 cout<<"Encryption is Success"<<endl;
