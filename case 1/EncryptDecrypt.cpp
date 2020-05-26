@@ -1,6 +1,6 @@
 /*File Name     :EncryptDecrypt.cpp
   Author Name   :A.G.L.Prasuna
-  Created Date  :15-05-2020
+  Created Date  :26-05-2020
   Description   :The function definitions to encrypt and decrypt the data in the file
   Requirements  :#include<iostream>,#include<fstream>,#include<algorithm>,#include<string.h>,#include<sstream>*/
 
@@ -13,120 +13,114 @@
 using namespace std;
 
 /*Function Name :Encryptmethod
-  Parameters    :one parameter(char*)
+  Parameters    :one parameter(string)
   Return Type   :string return type
   Usage         :to encrypt numbers and alphabets in a character array*/
 
-string EncryptDecrypt::Encryptmethod(char* cCode)
+string EncryptDecrypt::Encryptmethod(string sCode)
 {
-    iCount=strlen(cCode);
+    int iCount=0;
+    iCount=sCode.length();
     char cKey[iCount+1]={'0'};
     for(iStart=0;iStart<iCount;iStart++)
     {
-        if(cCode[iStart]>=48 && cCode[iStart]<=57)
-            cKey[iStart]=cCode[iStart]-1;
-        else if(cCode[iStart]>=97 && cCode[iStart]<=122)
-            cKey[iStart]=toupper(cCode[iStart]);
-        else if(cCode[iStart]>=65 && cCode[iStart]<=90)
-            cKey[iStart]=tolower(cCode[iStart]);
+        if(sCode[iStart]>=48 && sCode[iStart]<=57)
+            cKey[iStart]=sCode[iStart]-1;
+        else if(sCode[iStart]>=97 && sCode[iStart]<=122)
+            cKey[iStart]=toupper(sCode[iStart]);
+        else if(sCode[iStart]>=65 && sCode[iStart]<=90)
+            cKey[iStart]=tolower(sCode[iStart]);
         else
-            cKey[iStart]=cCode[iStart]^'a';
-            //XOR operation of input with 'a'
+            cKey[iStart]=sCode[iStart];
     }
     return cKey;
 }
 
-/*Function Name :Decryptmethod
+/*Function Name :Decryptsmethod
   Parameters    :one parameter(string)
   Return Type   :string return type
   Usage         :to decrypt the integer and alphabets of input*/
 
 string EncryptDecrypt::Decryptmethod(string sCode)
 {
+    int iLength=0;
     iLength=sCode.length();
-    char cKey_code[iLength+1]={'0'},cPass_code[iLength+1]={'0'};
-    strcpy(cKey_code,sCode.c_str());
-    //copying string to character array
-    for(iStart=0;iStart<strlen(cKey_code);iStart++)
+    char cPass_code[iLength+1]={'0'};
+    for(iStart=0;iStart<iLength;iStart++)
     {
-        if(cKey_code[iStart]>=48 && cKey_code[iStart]<=57)
-            cPass_code[iStart]=cKey_code[iStart]+1;
-        else if(cKey_code[iStart]>=97 && cKey_code[iStart]<=122)
-            cPass_code[iStart]=toupper(cKey_code[iStart]);
-        else if(cKey_code[iStart]>=65 && cKey_code[iStart]<=90)
-            cPass_code[iStart]=tolower(cKey_code[iStart]);
-        else if(cKey_code[iStart]==47)
+        if(sCode[iStart]>=48 && sCode[iStart]<=57)
+            cPass_code[iStart]=sCode[iStart]+1;
+        else if(sCode[iStart]>=97 && sCode[iStart]<=122)
+            cPass_code[iStart]=toupper(sCode[iStart]);
+        else if(sCode[iStart]>=65 && sCode[iStart]<=90)
+            cPass_code[iStart]=tolower(sCode[iStart]);
+        else if(sCode[iStart]==47)
             cPass_code[iStart]=48;
         else
-            cPass_code[iStart]=cKey_code[iStart]^'a';
+            cPass_code[iStart]=sCode[iStart];
     }
     return cPass_code;
 }
 
-/*Function Name :outAlphaNum
-  Parameters    :no parameter
-  Return Type   :char return type
-  Usage         :to get the character from the file in first line and to return that char*/
+/*Function Name :Alphanum
+  Parameters    :one parameter(string)
+  Return Type   :string return type
+  Usage         :to decrypt the integer and alphabets of input*/
 
-char EncryptDecrypt::outAlphaNum()
+string EncryptDecrypt::Alphanum(string sfile)
 {
-    ifstream infile("alphanum.txt");
+    ifstream infile(sfile);
+    string sLine_file,sTotal_data;
+    char cSpace_Replacer;
     if(infile)
     {
-        string sAlpha_num;
-        char cOutalphanum;
-        getline(infile,sAlpha_num,'=');
-        infile>>cOutalphanum;
-        //extracting that character
+        while(!infile.eof())
+        {
+            getline(infile,sLine_file);
+            sTotal_data=sLine_file;
+        }
         infile.close();
-        return cOutalphanum;
     }
+    if(sTotal_data.find('*')==string::npos)
+    //searching for '*' in data in file
+        return "*";
     else
-        cout<<"Error in opening alphanum.txt"<<endl;
+        return "#$*!++-==^&###*&^";
 }
 
 /*Function Name :Encryption
-  Parameters    :two parameter(char*,char*)
+  Parameters    :two parameter(string,string)
   Return Type   :bool return type
   Usage         :to write the character to replace the space into file
                  and enter key and data in inout file to encrypt file in encrypt format*/
 
-bool EncryptDecrypt::Encryption(char* cfile,char* cInput_key)
+bool EncryptDecrypt::Encryption(string sfile,string sInput_key)
 {
-    ifstream infile(cfile);
+    string sTotal_data;
+    string sAlphaNumeric=Alphanum(sfile);
+    ifstream infile(sfile);
     if(infile)
     {
-        ofstream outfile_alpha("alphanum.txt");
-        if(outfile_alpha)
-        {
-            cout<<"Enter the alpha numeric character that u want to replace with space:";
-            cin>>cAlpha_numeric;
-            outfile_alpha<<"alphanum "<<'='<<' '<<cAlpha_numeric;
-            outfile_alpha.close();
-        }
-        else
-        {
-            cout<<"Error in creating alphanum file"<<endl;
-            return 0;
-        }
+        int iNumber=0;
         ofstream outfile("encrypted.txt");
         if(outfile)
         {
-            outfile<<"PassCode "<<'='<<' '<<Encryptmethod(cInput_key)<<endl;
+            outfile<<"PassCode "<<'='<<' '<<Encryptmethod(sInput_key)<<endl;
             //writing the pass code into the encrypted file
+            outfile<<sAlphaNumeric<<endl;
             string sLine,sWord_file;
             while(!infile.eof())
             {
                 getline(infile,sLine);
-                stringstream ss(sLine);
-                while(ss>>sWord_file)
+                stringstream StreamWord(sLine);
+                while(StreamWord>>sWord_file)
                 {
                     iNumber+=sWord_file.length()+1;
                     //checking for no.of words in a file
                     reverse(sWord_file.begin(),sWord_file.end());
                     outfile<<sWord_file;
                     if(iNumber<sLine.length())
-                        outfile<<cAlpha_numeric;
+                        outfile<<sAlphaNumeric;
                         //checking if the word is end of line
                 }
                 iNumber=0;
@@ -134,7 +128,6 @@ bool EncryptDecrypt::Encryption(char* cfile,char* cInput_key)
             }
             outfile.close();
             infile.close();
-            remove(cfile);
             return 1;
         }
         else
@@ -151,20 +144,21 @@ bool EncryptDecrypt::Encryption(char* cfile,char* cInput_key)
 }
 
 /*Function Name :Decryption
-  Parameters    :one parameter(char*)
+  Parameters    :two parameter(string,string)
   Return Type   :bool return type
   Usage         :to extract the pass code from the file and to compare that with input pass code
                  to reverse each word of encrypted file without alphanumeric*/
 
-bool EncryptDecrypt::Decryption(char* cCode_key,char* cInput_file)
+bool EncryptDecrypt::Decryption(string sCode_key,string sInput_file)
 {
-    ifstream infile(cInput_file);
+    ifstream infile(sInput_file);
     if(infile)
     {
-        string sLines,skey;
+        string sLines,skey,sOut_Decrypt_line,sDelimiter;
+        size_t Position=0;
         getline(infile,sLines);
-        stringstream ss(sLines);
-        while(ss>>sLines)
+        stringstream StreamWords(sLines);
+        while(StreamWords>>sLines)
         {
             if(iStart==2)
             {
@@ -174,33 +168,35 @@ bool EncryptDecrypt::Decryption(char* cCode_key,char* cInput_file)
             }
             iStart++;
         }
-        if(strcmp(Decryptmethod(skey).c_str(),cCode_key)==0)
+        if(Decryptmethod(skey)==sCode_key)
         {
-            char cOutAlphanum_decrypt=outAlphaNum();
-            ofstream outfile("Decrypt.txt");
+            getline(infile,sLines);
+            sDelimiter=sLines;
+            //the delimiter in file
+            ofstream outfile("Decrypt_file.txt");
             if(outfile)
             {
-                while(!infile.eof())
+                while(getline(infile,sLines))
                 {
-                    getline(infile,sLines);
-                    replace(sLines.begin(),sLines.end(),cOutAlphanum_decrypt,' ');
-                    //replacing the alphanumeric with space
-                    stringstream ss(sLines);
-                    while(ss>>sLines)
+                    while((Position = sLines.find(sDelimiter)) != string::npos)
                     {
-                        reverse(sLines.begin(),sLines.end());
+                        sOut_Decrypt_line=sLines.substr(0,Position);
+                        reverse(sOut_Decrypt_line.begin(),sOut_Decrypt_line.end());
                         //reversing each word
-                        outfile<<sLines<<' ';
+                        outfile<<sOut_Decrypt_line<<' ';
+                        sLines.erase(0,Position+sDelimiter.length());
                     }
-                    outfile<<endl;
+                    reverse(sLines.begin(),sLines.end());
+                    outfile<<sLines<<endl;
                     if(infile.eof())break;
                 }
                 outfile.close();
+                infile.close();
                 return 1;
             }
             else
             {
-                cout<<"Unable to create Decryt file"<<endl;
+                cout<<"Unable to create Decrypt file"<<endl;
                 return 0;
             }
         }
@@ -214,68 +210,5 @@ bool EncryptDecrypt::Decryption(char* cCode_key,char* cInput_file)
     {
         cout<<"Unable to open Encrypt file"<<endl;
         return 0;
-    }
-}
-
-/*Function Name :checkingEncrypt_Decrypt
-  Parameters    :two parameter(int,char**)
-  Return Type   :string return type
-  Usage         :to compare input command line arguments with -f,-k,-d and -e to perform necessary function*/
-
-string EncryptDecrypt::checkingEncrypt_Decrypt(int argc,char* argv[])
-{
-    for(int iArg=0;iArg<argc;iArg++)
-    {
-        if(strcmp(argv[iArg],"-f")==0)
-        {
-            if(strcmp(argv[4],"-k")==0)
-            {
-                if(strcmp(argv[1],"-d")==0)
-                {
-                    if(Decryption(argv[5],argv[3])==1)
-                    //checking whether the return type is 1 or 0 from function
-                        return "Decryption is Success";
-                    else
-                        return "Decryption is Failure";
-                }
-                else if(strcmp(argv[1],"-e")==0)
-                {
-                    if(strcmp(argv[3],"encrypted.txt")==0)
-                        return "That is already encrypted file,enter normal text file";
-                    else
-                    {
-                        if(Encryption(argv[3],argv[5])==1)
-                            return "Encryption is Success";
-                        else
-                            return "Encryption is Failure";
-                    }
-                }
-            }
-        }
-        else if(strcmp(argv[iArg],"-k")==0)
-        {
-            if(strcmp(argv[4],"-f")==0)
-            {
-                if(strcmp(argv[1],"-d")==0)
-                {
-                    if(Decryption(argv[3],argv[5])==1)
-                        return "Decryption is Success";
-                    else
-                        return "Decryption is Failure";
-                }
-                else if(strcmp(argv[1],"-e")==0)
-                {
-                    if(strcmp(argv[5],"encrypted.txt")==0)
-                        return "That is already encrypted file,enter normal text file";
-                    else
-                    {
-                        if(Encryption(argv[5],argv[3])==1)
-                            return "Encryption is Success";
-                        else
-                            return "Encryption is Failure";
-                    }
-                }
-            }
-        }
     }
 }

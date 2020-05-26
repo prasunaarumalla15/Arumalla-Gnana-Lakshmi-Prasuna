@@ -1,6 +1,6 @@
 /*File Name     :encryptDecrypt.h
   Author Name   :A.G.L.Prasuna
-  Created Date  :08-05-2020
+  Created Date  :26-05-2020
   Description   :To encrypt and decrypt the data in the file
   Requirements  :#include<iostream>,#include<fstream>,#include<algorithm>,#include<string.h>,#include<sstream>*/
 
@@ -20,30 +20,21 @@ encryption and decryption of data in a file*/
 
 class EncryptDecrypt
 {
-    int iCount;
-    int iLength;
     int iStart;
-    int iNumber;
-    char cAlpha_numeric;
-    char outAlphaNum();
-    string Encryptmethod(char*);
+    string Encryptmethod(string);
     string Decryptmethod(string);
-    bool Encryption(char*,char*);
-    bool Decryption(char*,char*);
+    string Alphanum(string);
 public:
     EncryptDecrypt()
     {
-        iCount=0;
-        iLength=0;
         iStart=0;
-        iNumber=0;
-        cAlpha_numeric='0';
     }
     ~EncryptDecrypt()
     {
         cout<<"deallocating memory";
     }
-    string checkingEncrypt_Decrypt(int,char**);
+    bool Encryption(string,string);
+    bool Decryption(string,string);
 };
 
 #endif
