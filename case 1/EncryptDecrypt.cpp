@@ -80,12 +80,14 @@ string EncryptDecrypt::Alphanum(string sfile)
             sTotal_data=sLine_file;
         }
         infile.close();
+        if(sTotal_data.find('*')==string::npos)
+        //searching for '*' in data in file
+            return "*";
+        else
+            return "#$*!++-==^&###*&^";
     }
-    if(sTotal_data.find('*')==string::npos)
-    //searching for '*' in data in file
-        return "*";
     else
-        return "#$*!++-==^&###*&^";
+        cout<<"file not present"<<endl;
 }
 
 /*Function Name :Encryption
